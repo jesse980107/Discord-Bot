@@ -47,6 +47,7 @@ def run_discord_bot():
         else:
             await send_msg(message, user_msg, is_private = False)
 
+
     cogs = [music]
     for i in range(len(cogs)):
         cogs[i].setup(client)
