@@ -2,6 +2,10 @@ import discord
 import responses
 import music
 from discord.ext import commands
+from dotenv import load_dotenv
+import os
+
+
 
 async def send_msg(message,user_msg,is_private = False):
     try:
@@ -12,7 +16,8 @@ async def send_msg(message,user_msg,is_private = False):
         print(e)
 
 def run_discord_bot():
-    TOKEN ="MTE2NDQ1NDAwNDg5NDQ3MDIwNQ.GZZoXU.gpRtCMdXpuXKRbhYd2nnUTJ9JcZczzXCwqclNE"
+    load_dotenv()
+    TOKEN = os.getenv('DISCORD_TOKEN')
     intents = discord.Intents.all()
 
     #intents.members = True
@@ -25,22 +30,22 @@ def run_discord_bot():
     async def on_ready():
         print(f'{client.user} is now running!!')
 
-    # @client.event
-    # async def on_message(message):
-    #     if message.author == client.user:
-    #         return 
+    @client.event
+    async def on_message(message):
+        if message.author == client.user:
+            return 
         
-    #     username = str(message.author)
-    #     user_msg = str(message.content)
-    #     channel = str(message.channel)
-    #     print(type(message.content),message.content)
-    #     print(f"{username} said : '{user_msg}' ({channel})")
+        username = str(message.author)
+        user_msg = str(message.content)
+        channel = str(message.channel)
+        print(type(message.content),message.content)
+        print(f"{username} said : '{user_msg}' ({channel})")
 
-    #     if user_msg[0] == '!':
-    #         user_msg = user_msg[1:]
-    #         await send_msg(message, user_msg, is_private = True)
-    #     else:
-    #         await send_msg(message, user_msg, is_private = False)
+        if user_msg[0] == '!':
+            user_msg = user_msg[1:]
+            await send_msg(message, user_msg, is_private = True)
+        else:
+            await send_msg(message, user_msg, is_private = False)
 
     cogs = [music]
     for i in range(len(cogs)):
